@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto FX Live Hub</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1 data-i18n="appTitle">Crypto FX Live Hub</h1>
+        <p class="subtitle" data-i18n="appSubtitle">Real-time crypto, fiat exchange, and market dashboard.</p>
+      </div>
+      <div class="pill" id="lastUpdate">--</div>
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <h2 data-i18n="converter">Currency Converter</h2>
+        <div class="converter">
+          <input id="amountInput" type="number" min="0" step="any" value="1" />
+          <select id="fromSelect"></select>
+          <span>→</span>
+          <select id="toSelect"></select>
+        </div>
+        <p id="conversionResult" class="big-result">--</p>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="marketOverview">Market Overview</h2>
+        <div class="kpi-grid" id="marketOverviewGrid"></div>
+      </section>
+
+      <section class="card wide">
+        <div class="flex-between">
+          <h2 data-i18n="rankings">Top Movers</h2>
+          <div class="sorters">
+            <label>
+              <span data-i18n="sortBy">Sort by</span>
+              <select id="sortSelect">
+                <option value="price_change_percentage_24h_desc" data-i18n="sortGainers">24h gain</option>
+                <option value="price_change_percentage_24h_asc" data-i18n="sortLosers">24h loss</option>
+                <option value="market_cap_desc" data-i18n="sortMarketCap">Market cap</option>
+              </select>
+            </label>
+            <button id="refreshBtn" class="btn" data-i18n="refresh">Refresh</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="coin">Coin</th>
+                <th data-i18n="price">Price</th>
+                <th data-i18n="change24h">24h %</th>
+                <th data-i18n="marketCap">Market Cap</th>
+                <th data-i18n="sparkline">Trend</th>
+                <th data-i18n="favorite">★</th>
+              </tr>
+            </thead>
+            <tbody id="coinTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2 data-i18n="exchangeTrend">Exchange BTC Price Curve</h2>
+        <canvas id="exchangeChart" height="100"></canvas>
+      </section>
+
+      <section class="card wide">
+        <h2 data-i18n="platformRates">Exchange / Platform Live Rates & Fees</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="platform">Platform</th>
+                <th>BTC/USDT</th>
+                <th>ETH/USDT</th>
+                <th data-i18n="makerFee">Maker Fee</th>
+                <th data-i18n="takerFee">Taker Fee</th>
+                <th data-i18n="depositFee">Deposit Fee</th>
+              </tr>
+            </thead>
+            <tbody id="platformTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="fearGreed">Fear & Greed Index</h2>
+        <div class="gauge-wrap">
+          <canvas id="fearGreedGauge" width="240" height="140"></canvas>
+          <p id="fearGreedText" class="big-result">--</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="watchlist">Watchlist</h2>
+        <ul id="watchlist" class="watchlist"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
