@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coin Detail</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="index.html" class="btn">← Home</a>
+      <h1 id="detailTitle">Coin Detail</h1>
+    </header>
+
+    <main class="grid">
+      <section class="card wide">
+        <h2>Price Trend (7D)</h2>
+        <canvas id="detailChart" height="120"></canvas>
+      </section>
+      <section class="card">
+        <h2>Overview</h2>
+        <ul id="detailStats" class="watchlist"></ul>
+      </section>
+      <section class="card">
+        <h2>Description</h2>
+        <p id="detailDescription"></p>
+      </section>
+    </main>
+
+    <script src="detail.js"></script>
+  </body>
+</html>
