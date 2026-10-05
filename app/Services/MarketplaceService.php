@@ -2,9 +2,9 @@
 namespace App\Services;
 
 use App\Models\MarketplaceOrder;
+use App\Models\Site;
 use App\Models\SellerAccount;
 use App\Models\SellerLedger;
-use App\Models\Wallet;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +35,7 @@ class MarketplaceService
                     'paid_at' => now(),
                 ]);
 
-                $rate = '0.20';
+                $rate = (string) Site::whereKey($siteId)->value('commission_rate');
                 $fee = bcmul($points, $rate, 2);
                 $net = bcsub($points, $fee, 2);
 
