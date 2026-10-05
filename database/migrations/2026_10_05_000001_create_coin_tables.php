@@ -37,6 +37,7 @@ return new class extends Migration {
             $t->string('status', 20)->default('pending');
             $t->json('scopes')->nullable();
             $t->timestamp('verified_at')->nullable();
+            $t->decimal('commission_rate', 8, 4)->default(0.20);
             $t->timestamps();
         });
         Schema::create('seller_accounts', function (Blueprint $t) {
@@ -61,6 +62,18 @@ return new class extends Migration {
             $t->string('status',20)->default('pending');
             $t->json('metadata')->nullable();
             $t->timestamps();
+        });
+        Schema::create('marketplace_products', function (Blueprint $t) {
+            $t->id();
+            $t->foreignId('site_id')->constrained('sites')->cascadeOnDelete();
+            $t->foreignId('seller_id')->constrained('users')->cascadeOnDelete();
+            $t->string('product_id', 100);
+            $t->string('title');
+            $t->decimal('points', 18, 2);
+            $t->string('status', 20)->default('active');
+            $t->json('metadata')->nullable();
+            $t->timestamps();
+            $t->unique(['site_id','product_id']);
         });
         Schema::create('marketplace_orders', function (Blueprint $t) {
             $t->id();
@@ -96,6 +109,7 @@ return new class extends Migration {
     {
         Schema::dropIfExists('withdrawals');
         Schema::dropIfExists('marketplace_orders');
+        Schema::dropIfExists('marketplace_products');
         Schema::dropIfExists('seller_ledgers');
         Schema::dropIfExists('seller_accounts');
         Schema::dropIfExists('sites');
