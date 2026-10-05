@@ -6,6 +6,7 @@ use App\Models\Withdrawal;
 use App\Support\SiteContext;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class SellerController extends Controller
 {
@@ -19,7 +20,10 @@ class SellerController extends Controller
             'idempotency_key' => ['required','string','max:100'],
         ]);
 
-        $result = DB::transaction(function () use ($request, $site, $data) {
+        $lock = Cache::lock('seller:withdraw:' . $request->user()->id . ':' . $site->id, 15);
+        $lock->block(5);
+        try {
+            $result = DB::transaction(function () use ($request, $site, $data) {
             $old = Withdrawal::where('idempotency_key', $data['idempotency_key'])->lockForUpdate()->first();
             if ($old) return $old;
 
@@ -51,6 +55,10 @@ class SellerController extends Controller
             ]);
         });
 
-        return response()->json(['success'=>true,'withdrawal'=>$result]);
+            });
+            return response()->json(['success'=>true,'withdrawal'=>$result]);
+        } finally {
+            $lock->release();
+        }
     }
 }
