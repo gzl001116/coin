@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RechargeController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,9 @@ Route::prefix('v1')->group(function () {
             ->middleware('scope:wallet.balance.read');
 
         Route::post('/wallet/debit', [WalletController::class, 'debit'])
+            ->middleware('scope:wallet.debit.create');
+
+        Route::post('/marketplace/purchase', [MarketplaceController::class, 'purchase'])
             ->middleware('scope:wallet.debit.create');
 
         Route::get('/seller/finance', [SellerController::class, 'finance'])
