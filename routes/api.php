@@ -5,12 +5,17 @@ use App\Http\Controllers\SellerFinanceController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\IdentityController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::post('/recharge/quote', [RechargeController::class, 'quote']);
 
     Route::middleware('auth:api')->group(function () {
+        // This endpoint is used by the approved marketplace API to verify central SSO tokens.
+        Route::get('/me', [IdentityController::class, 'show'])
+            ->middleware('scope:marketplace.access');
+
         Route::get('/wallet/balance', [WalletController::class, 'balance'])
             ->middleware('scope:wallet.balance.read');
 
@@ -25,6 +30,5 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/seller/withdrawals', [SellerController::class, 'withdraw'])
             ->middleware('scope:seller.withdraw.create');
-
     });
 });

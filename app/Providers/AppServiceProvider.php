@@ -11,6 +11,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Passport::tokensCan([
+            'marketplace.access' => 'Access the approved content marketplace',
             'wallet.balance.read' => 'Read current wallet balance',
             'wallet.debit.create' => 'Debit wallet for a purchase',
             'seller.finance.read' => 'Read seller finance for the current site',
